@@ -15,7 +15,7 @@ Usage Example:
     from clustering_analyzer import ClusteringAnalyzer
     
     # Initialize analyzer
-    analyzer = ClusteringAnalyzer(data_path='../Data/processing/engineered_features.csv')
+    analyzer = ClusteringAnalyzer(data_path='../data/processing/engineered_features.csv')
     
     # Perform clustering
     analyzer.fit(k=3)
