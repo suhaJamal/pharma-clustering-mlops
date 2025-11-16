@@ -6,7 +6,7 @@ This data science project analyzes pharmaceutical drug spending patterns across 
 
 **Team DS-4 | Cohort 7**
 - Ahil Khuwaja
-- Fabiana Camargo Franco Barril
+- [Fabiana Camargo Franco Barril](https://www.linkedin.com/in/fabiana-barril-mba-233976125/)
 - Mohammad Faisal
 - Saranya Manoharan
 - Suha Islaih
@@ -442,7 +442,7 @@ This analysis delivers value to multiple stakeholder groups:
 Each team member has recorded a 3-5 minute video reflecting on the project experience, challenges, and learnings:
 
 - **Ahil Khuwaja:** [Video Link - To be added]
-- **Fabiana Camargo Franco Barril:** [Video Link - To be added]
+- **Fabiana Camargo Franco Barril:** [Video Link](https://drive.google.com/file/d/1rExWHvyPyOhDeocrkubGVOz5YggxRd8R/view?usp=sharing)
 - **Mohammad Faisal:** [Video Link - To be added]
 - **Saranya Manoharan:** [Video Link - To be added]
 - **Suha Islaih:** [Video Link - To be added]
