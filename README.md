@@ -8,7 +8,7 @@ This data science project analyzes pharmaceutical drug spending patterns across 
 - Ahil Khuwaja
 - [Fabiana Camargo Franco Barril](https://www.linkedin.com/in/fabiana-barril-mba-233976125/)
 - Mohammad Faisal
-- Saranya Manoharan
+- [Saranya Manoharan] (https://www.linkedin.com/in/smano1/)
 - [Suha Islaih](https://www.linkedin.com/in/suha-islaih/)
 
 **Repository:** [https://github.com/saranya-mano/DS04-Team-Project](https://github.com/saranya-mano/DS04-Team-Project)
@@ -444,7 +444,7 @@ Each team member has recorded a 3-5 minute video reflecting on the project exper
 - **Ahil Khuwaja:** [Video Link - To be added]
 - **Fabiana Camargo Franco Barril:** [Video Link](https://drive.google.com/file/d/1rExWHvyPyOhDeocrkubGVOz5YggxRd8R/view?usp=sharing)
 - **Mohammad Faisal:** [Video Link - To be added]
-- **Saranya Manoharan:** [Video Link - To be added]
+- **Saranya Manoharan:** [Video Link] (https://drive.google.com/file/d/1L5Pzrn7YIiE7ZrHz0NvPn7SOxwFlFse9/view?usp=sharing)
 - **Suha Islaih:** [Video Link](https://drive.google.com/file/d/1uulPX_Fk02HpPt1l_fz74qq5Yta6iFZW/view?usp=sharing)
 
 *Videos will be updated with links before final submission.*
