@@ -323,7 +323,7 @@ This is a learning project demonstrating MLOps practices. Feedback and suggestio
 **Suha Islaih**
 - LinkedIn: [linkedin.com/in/suha-islaih](https://linkedin.com/in/suha-islaih)
 - Email: suha@smartdiversity.ca
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- GitHub: [@suhaJamal](https://github.com/suhaJama)
 
 ---
 
