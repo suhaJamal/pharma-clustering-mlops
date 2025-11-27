@@ -1,0 +1,35 @@
+{
+  "model_version": "1.0.0",
+  "creation_date": "2025-11-26T16:55:31.149856",
+  "model_type": "KMeans Clustering",
+  "model_parameters": {
+    "n_clusters": 3,
+    "random_state": 42,
+    "n_init": 10,
+    "max_iter": 300
+  },
+  "training_data": {
+    "n_samples": 36,
+    "n_features": 9,
+    "feature_names": [
+      "PC_HEALTHXP_growth",
+      "PC_GDP_growth",
+      "USD_CAP_growth",
+      "PC_HEALTHXP_avg",
+      "PC_GDP_avg",
+      "USD_CAP_avg",
+      "PC_HEALTHXP_volatility",
+      "PC_GDP_volatility",
+      "USD_CAP_volatility"
+    ]
+  },
+  "performance_metrics": {
+    "silhouette_score": 0.2893771954755398,
+    "inertia": 188.86081732382252
+  },
+  "cluster_size": {
+    "cluster_0": 5,
+    "cluster_1": 23,
+    "cluster_2": 8
+  }
+}
