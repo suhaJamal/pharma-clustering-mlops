@@ -37,7 +37,7 @@ app.add_middleware(
 
 # Initialize predictor (loads model once)
 try:
-    predictor = ModelPredictor(model_dir="models/v1.0")
+    predictor = ModelPredictor(model_dir="models/v1.0.0")
 except Exception as e:
     print(f"⚠️ Failed to load model: {e}")
     predictor = None
