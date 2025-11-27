@@ -8,7 +8,7 @@ from src.models.predictor import ModelPredictor
 
 def test_model_loads():
     """Test that model loads successfully"""
-    predictor = ModelPredictor(model_dir="models/v1.0")
+    predictor = ModelPredictor(model_dir="models/v1.0.0")
     
     assert predictor.model is not None
     assert predictor.scaler is not None
@@ -17,7 +17,7 @@ def test_model_loads():
 
 def test_model_prediction():
     """Test that model makes valid predictions"""
-    predictor = ModelPredictor(model_dir="models/v1.0")
+    predictor = ModelPredictor(model_dir="models/v1.0.0")
     
     # Test data (Germany)
     features = {
@@ -45,7 +45,7 @@ def test_model_prediction():
 
 def test_model_metadata():
     """Test that model metadata is correct"""
-    predictor = ModelPredictor(model_dir="models/v1.0")
+    predictor = ModelPredictor(model_dir="models/v1.0.0")
     
     info = predictor.get_model_info()
     
