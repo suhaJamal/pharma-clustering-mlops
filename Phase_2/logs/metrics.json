@@ -1,0 +1,10 @@
+{
+  "total_predictions": 3,
+  "predictions_by_cluster": {
+    "0": 0,
+    "1": 1,
+    "2": 2
+  },
+  "total_response_time": 0.022215843200683594,
+  "start_time": "2025-11-27T18:46:42.021961"
+}
