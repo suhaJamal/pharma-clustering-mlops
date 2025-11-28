@@ -19,6 +19,9 @@ from src.api.schemas import (
     BatchPredictionResponse
 )
 
+from src.monitoring.logger import PredictionLogger
+import time
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Pharmaceutical Market Segmentation API",
@@ -42,6 +45,7 @@ except Exception as e:
     print(f"⚠️ Failed to load model: {e}")
     predictor = None
 
+prediction_logger = PredictionLogger()
 
 @app.get("/", tags=["Root"])
 async def root():
@@ -77,6 +81,9 @@ async def predict(request: PredictionRequest):
     - Strategic recommendation
     - Confidence score
     """
+
+    start_time = time.time()
+
     if predictor is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
 
@@ -96,7 +103,19 @@ async def predict(request: PredictionRequest):
         
         # Make prediction
         result = predictor.predict(features, request.country)
-
+        
+        # Calculate response time
+        response_time = time.time() - start_time
+        
+        # Log prediction
+        prediction_logger.log_prediction(
+            country=result['country'],
+            cluster=result['cluster'],
+            confidence=result['confidence'],
+            model_version=result['model_version'],
+            response_time=response_time
+        )
+        
         return PredictionResponse(**result)
         
     except Exception as e:
@@ -137,7 +156,13 @@ async def predict_batch(request: BatchPredictionRequest):
             predictions.append(PredictionResponse(**result))
         
         processing_time = time.time() - start_time
-        
+
+        # Log batch predictions
+        prediction_logger.log_batch_prediction(
+            predictions=[p.dict() for p in predictions],
+            total_response_time=processing_time
+        )
+
         return BatchPredictionResponse(
             predictions=predictions,
             total_countries=len(predictions),
@@ -154,3 +179,16 @@ async def model_info():
         raise HTTPException(status_code=503, detail="Model not loaded")
     
     return predictor.get_model_info()
+
+@app.get("/metrics", tags=["Monitoring"])
+async def get_metrics():
+    """
+    Get prediction metrics and statistics
+    
+    Returns:
+    - Total predictions made
+    - Predictions per cluster
+    - Average response time
+    - API uptime
+    """
+    return prediction_logger.get_metrics()
