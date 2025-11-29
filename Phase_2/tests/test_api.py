@@ -9,13 +9,12 @@ client = TestClient(app)
 
 
 def test_root_endpoint():
-    """Test root endpoint returns welcome message"""
+    """Test root endpoint returns web UI"""
     response = client.get("/")
     
     assert response.status_code == 200
-    data = response.json()
-    assert data['message'] == "Pharmaceutical Market Segmentation API"
-    assert data['version'] == "1.0.0"
+    assert "text/html" in response.headers["content-type"]
+    assert "Pharmaceutical Market Segmentation" in response.text
 
 
 def test_health_endpoint():
@@ -26,7 +25,7 @@ def test_health_endpoint():
     data = response.json()
     assert data['status'] == "healthy"
     assert data['model_loaded'] == True
-    assert data['model_version'] == "1.0.0"
+    assert data['model_version'] == "1.2.0"
 
 
 def test_predict_endpoint():
@@ -99,5 +98,5 @@ def test_model_info_endpoint():
     
     assert response.status_code == 200
     data = response.json()
-    assert data['version'] == "1.0.0"
+    assert data['version'] == "1.2.0"
     assert data['n_clusters'] == 3

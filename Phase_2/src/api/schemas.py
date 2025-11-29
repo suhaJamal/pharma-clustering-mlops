@@ -48,6 +48,7 @@ class PredictionResponse(BaseModel):
     confidence: float
     model_version: str
     timestamp: str
+    processing_time_seconds: float | None = None
     
 
 class HealthResponse(BaseModel):

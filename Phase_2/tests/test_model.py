@@ -8,7 +8,7 @@ from src.models.predictor import ModelPredictor
 
 def test_model_loads():
     """Test that model loads successfully"""
-    predictor = ModelPredictor(model_dir="models/v1.0.0")
+    predictor = ModelPredictor(model_dir="models/v1.2.0")
     
     assert predictor.model is not None
     assert predictor.scaler is not None
@@ -17,7 +17,7 @@ def test_model_loads():
 
 def test_model_prediction():
     """Test that model makes valid predictions"""
-    predictor = ModelPredictor(model_dir="models/v1.0.0")
+    predictor = ModelPredictor(model_dir="models/v1.2.0")
     
     # Test data (Germany)
     features = {
@@ -38,17 +38,17 @@ def test_model_prediction():
     assert result['country'] == "Germany"
     assert result['cluster'] in [0, 1, 2]
     assert 0 <= result['confidence'] <= 1
-    assert result['model_version'] == "1.0.0"
+    assert result['model_version'] == "1.2.0"
     assert 'cluster_name' in result
     assert 'recommendation' in result
 
 
 def test_model_metadata():
     """Test that model metadata is correct"""
-    predictor = ModelPredictor(model_dir="models/v1.0.0")
+    predictor = ModelPredictor(model_dir="models/v1.2.0")
     
     info = predictor.get_model_info()
     
-    assert info['version'] == "1.0.0"
+    assert info['version'] == "1.2.0"
     assert info['n_clusters'] == 3
     assert 'silhouette_score' in info
