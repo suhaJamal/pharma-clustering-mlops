@@ -22,12 +22,19 @@ from src.api.schemas import (
 from src.monitoring.logger import PredictionLogger
 import time
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from src.monitoring.drift_detector import DriftDetector
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Pharmaceutical Market Segmentation API",
     description="Predicts market clusters for countries based on pharmaceutical spending patterns",
     version="1.0.0"
 )
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="src/api/static"), name="static")
 
 # Add CORS middleware
 app.add_middleware(
@@ -40,22 +47,25 @@ app.add_middleware(
 
 # Initialize predictor (loads model once)
 try:
-    predictor = ModelPredictor(model_dir="models/v1.0.0")
+    predictor = ModelPredictor(model_dir="models/v1.2.0")
 except Exception as e:
     print(f"⚠️ Failed to load model: {e}")
     predictor = None
 
 prediction_logger = PredictionLogger()
+# Initialize drift detector
+try:
+    drift_detector = DriftDetector(model_dir="models/v1.2.0")
+    print("✅ Drift detector initialized")
+except Exception as e:
+    print(f"⚠️ Drift detector not available: {e}")
+    drift_detector = None
 
-@app.get("/", tags=["Root"])
+@app.get("/", response_class=HTMLResponse, tags=["Root"])
 async def root():
-    """Root endpoint"""
-    return {
-        "message": "Pharmaceutical Market Segmentation API",
-        "version": "1.0.0",
-        "docs": "/docs"
-    }
-
+    """Serve the web UI"""
+    with open("src/api/static/index.html", "r", encoding="utf-8") as f:
+        return f.read()
 
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
 async def health_check():
@@ -115,7 +125,12 @@ async def predict(request: PredictionRequest):
             model_version=result['model_version'],
             response_time=response_time
         )
+        result['processing_time_seconds'] = round(response_time, 4) 
         
+        # Track for drift detection
+        if drift_detector:
+            drift_detector.add_prediction(features)
+
         return PredictionResponse(**result)
         
     except Exception as e:
@@ -159,7 +174,7 @@ async def predict_batch(request: BatchPredictionRequest):
 
         # Log batch predictions
         prediction_logger.log_batch_prediction(
-            predictions=[p.dict() for p in predictions],
+            predictions=[p.model_dump() for p in predictions],
             total_response_time=processing_time
         )
 
@@ -170,6 +185,8 @@ async def predict_batch(request: BatchPredictionRequest):
         )
         
     except Exception as e:
+        import traceback
+        print("BATCH ERROR:", traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Batch prediction failed: {str(e)}")
     
 @app.get("/model/info", tags=["Model"])
@@ -192,3 +209,74 @@ async def get_metrics():
     - API uptime
     """
     return prediction_logger.get_metrics()
+
+@app.get("/drift/status", tags=["Monitoring"])
+async def drift_status():
+    """
+    Check for data drift
+    
+    Compares recent production data to training data distribution.
+    Returns drift status for each feature.
+    """
+    if drift_detector is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="Drift detection not available. Retrain model to generate training statistics."
+        )
+    
+    return drift_detector.detect_drift()
+
+@app.post("/generate-test-data", tags=["Testing"])
+async def generate_test_data(num_predictions: int = 30):
+    """
+    Generate random test predictions for drift detection testing
+    
+    Creates predictions for fictional countries with randomized features
+    """
+    import random
+    
+    if drift_detector is None:
+        raise HTTPException(status_code=503, detail="Drift detector not available")
+    
+    # Fictional country names
+    countries = [
+        "Atlantis", "Wakanda", "Genovia", "Latveria", "Sokovia", 
+        "Themyscira", "Krypton", "Asgard", "Pandora", "Narnia",
+        "Westeros", "Essos", "Middle-earth", "Gondor", "Rohan",
+        "Tatooine", "Coruscant", "Naboo", "Alderaan", "Hoth",
+        "Panem", "District-12", "Gilead", "Oceania", "Airstrip-One",
+        "Wonderland", "Oz", "Neverland", "Hundred-Acre", "Camelot",
+        "Fantasia", "Narnia-2", "Xanadu", "Shangri-La", "El-Dorado"
+    ]
+    
+    predictions_made = 0
+    
+    for i in range(min(num_predictions, len(countries))):
+        # Generate random features (slightly varied from training ranges)
+        features = {
+            'PC_HEALTHXP_growth': random.uniform(-8, 8),
+            'PC_GDP_growth': random.uniform(-3, 8),
+            'USD_CAP_growth': random.uniform(-5, 15),
+            'PC_HEALTHXP_avg': random.uniform(6, 18),
+            'PC_GDP_avg': random.uniform(0.5, 4),
+            'USD_CAP_avg': random.uniform(150, 1200),
+            'PC_HEALTHXP_volatility': random.uniform(0.1, 1.5),
+            'PC_GDP_volatility': random.uniform(0.02, 0.8),
+            'USD_CAP_volatility': random.uniform(10, 150)
+        }
+        
+        # Make prediction
+        result = predictor.predict(features, countries[i])
+        
+        # Track for drift detection
+        if drift_detector:
+            drift_detector.add_prediction(features)
+        
+        predictions_made += 1
+    
+    return {
+        "message": f"Generated {predictions_made} test predictions",
+        "predictions_made": predictions_made,
+        "drift_status_ready": predictions_made >= 30,
+        "check_drift_at": "/drift/status"
+    }

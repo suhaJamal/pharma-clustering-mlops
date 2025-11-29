@@ -8,7 +8,9 @@ services:
     container_name: pharma-api
     restart: unless-stopped
     environment:
-      - MODEL_VERSION=1.0.0
+      - MODEL_VERSION=1.2.0
+    volumes:
+      - ./logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s

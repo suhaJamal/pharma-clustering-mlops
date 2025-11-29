@@ -136,6 +136,8 @@ def save_model(model, scaler, version, feature_names, X, metrics, models_dir):
     
     print(f"✅ Model v{version} saved to {version_dir}")
     
+    # Save training statistics for drift detection
+    save_training_statistics(X, feature_names, version_dir)
     return metadata
 
 
@@ -178,6 +180,28 @@ def compare_models(new_metrics, old_version_dir):
     
     return is_better
 
+def save_training_statistics(X, feature_names, version_dir):
+    """Save training data statistics for drift detection"""
+    from scipy import stats
+    
+    stats_data = {}
+    
+    for i, feature_name in enumerate(feature_names):
+        feature_values = X[:, i]
+        stats_data[feature_name] = {
+            'mean': float(np.mean(feature_values)),
+            'std': float(np.std(feature_values)),
+            'min': float(np.min(feature_values)),
+            'max': float(np.max(feature_values)),
+            'median': float(np.median(feature_values)),
+            'values': feature_values.tolist()  # Store actual values for KS test
+        }
+    
+    # Save to file
+    with open(version_dir / 'training_stats.json', 'w') as f:
+        json.dump(stats_data, f, indent=2)
+    
+    print(f"✅ Training statistics saved")
 
 def main():
     """Main training pipeline"""
