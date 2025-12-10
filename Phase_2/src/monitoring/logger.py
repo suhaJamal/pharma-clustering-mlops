@@ -161,3 +161,4 @@ class PredictionLogger:
                 'start_time': datetime.now().isoformat()
             }
             self._save_metrics()
+            

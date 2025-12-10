@@ -257,3 +257,4 @@ def get_previous_version(current_version):
 
 if __name__ == "__main__":
     main()
+    

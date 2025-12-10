@@ -30,7 +30,7 @@ from src.monitoring.drift_detector import DriftDetector
 app = FastAPI(
     title="Pharmaceutical Market Segmentation API",
     description="Predicts market clusters for countries based on pharmaceutical spending patterns",
-    version="1.0.0"
+    version="1.2.0"
 )
 
 # Mount static files
@@ -92,7 +92,9 @@ async def predict(request: PredictionRequest):
     - Confidence score
     """
 
-    start_time = time.time()
+    start_time = time.time() 
+
+    
 
     if predictor is None:
         raise HTTPException(status_code=503, detail="Model not loaded")

@@ -109,3 +109,4 @@ class ModelPredictor:
             'n_clusters': self.metadata['model_parameters']['n_clusters'],
             'silhouette_score': self.metadata['performance_metrics']['silhouette_score']
         }
+    

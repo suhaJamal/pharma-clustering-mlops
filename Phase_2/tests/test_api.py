@@ -100,3 +100,4 @@ def test_model_info_endpoint():
     data = response.json()
     assert data['version'] == "1.2.0"
     assert data['n_clusters'] == 3
+    
