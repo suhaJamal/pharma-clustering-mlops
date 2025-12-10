@@ -52,3 +52,5 @@
 {"timestamp": "2025-11-29T18:53:45.512281", "country": "Germany", "cluster": 1, "confidence": 0.33, "model_version": "1.2.0", "response_time_seconds": 0.0009799003601074219}
 {"timestamp": "2025-11-29T18:54:21.024753", "country": "Germany", "cluster": 1, "confidence": 0.33, "model_version": "1.2.0", "response_time_seconds": 0.0021702051162719727, "batch": true}
 {"timestamp": "2025-11-29T18:54:21.027510", "country": "France", "cluster": 1, "confidence": 0.321, "model_version": "1.2.0", "response_time_seconds": 0.0021702051162719727, "batch": true}
+{"timestamp": "2025-12-10T19:03:44.689925", "country": "Unknown", "cluster": 0, "confidence": 0.296, "model_version": "1.2.0", "response_time_seconds": 0.009372115135192871, "batch": true}
+{"timestamp": "2025-12-10T19:03:44.701145", "country": "Saudia Arabia", "cluster": 0, "confidence": 0.276, "model_version": "1.2.0", "response_time_seconds": 0.009372115135192871, "batch": true}

@@ -93,6 +93,7 @@ async def predict(request: PredictionRequest):
     """
 
     start_time = time.time() 
+
     
 
     if predictor is None:

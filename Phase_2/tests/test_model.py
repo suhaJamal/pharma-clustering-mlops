@@ -32,6 +32,7 @@ def test_model_prediction():
         'USD_CAP_volatility': 102.02
     }
     
+    
     result = predictor.predict(features, "Germany")
     
     # Assertions

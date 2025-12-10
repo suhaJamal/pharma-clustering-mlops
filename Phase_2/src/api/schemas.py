@@ -97,6 +97,7 @@ class BatchPredictionRequest(BaseModel):
     }
 
 
+
 class BatchPredictionResponse(BaseModel):
     """Response model for batch predictions"""
     
